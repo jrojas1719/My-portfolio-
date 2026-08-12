@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jonathan Rojas — Résumé</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+  :root {
+    --ink: #17233b;
+    --slate: #4a5875;
+    --accent: #0f4c81;
+    --accent-warm: #e0793c;
+    --bg-soft: #f5f7fa;
+  }
+  body { font-family: 'Inter', sans-serif; color: var(--ink); background: var(--bg-soft); }
+  h1, h2, h3, .navbar-brand { font-family: 'Sora', sans-serif; }
+  .navbar { background: #ffffff; border-bottom: 1px solid #e7eaf0; }
+  .nav-link { color: var(--slate) !important; font-weight: 500; }
+  .nav-link.active { color: var(--accent) !important; }
+
+  .resume-header {
+    background: linear-gradient(135deg, var(--ink) 0%, var(--accent) 100%);
+    color: #fff;
+    padding: 70px 0 60px;
+  }
+  .headshot-frame {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(255,255,255,0.2);
+  }
+  .contact-pill {
+    background: rgba(255,255,255,0.12);
+    border-radius: 30px;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+    color: #e6ecf5;
+  }
+
+  .resume-card {
+    background: #fff;
+    border: 1px solid #e7eaf0;
+    border-radius: 10px;
+    padding: 34px;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .section-title i { font-size: 1.2rem; }
+
+  .skill-badge {
+    display: inline-block;
+    background: #eaf1f8;
+    color: var(--accent);
+    padding: 7px 14px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin: 0 8px 8px 0;
+  }
+  .skill-badge.warm { background: #fdece0; color: var(--accent-warm); }
+
+  .mission-box {
+    border-left: 4px solid var(--accent-warm);
+    background: #fff7f0;
+    padding: 18px 22px;
+    border-radius: 4px;
+    color: var(--slate);
+  }
+
+  /* Accordion (experience) */
+  .accordion-item { border: 1px solid #e7eaf0; border-radius: 8px !important; margin-bottom: 12px; overflow: hidden; }
+  .accordion-button { font-weight: 600; }
+  .accordion-button:not(.collapsed) { background: #eaf1f8; color: var(--accent); box-shadow: none; }
+  .accordion-button:focus { box-shadow: none; }
+  .accordion-org { color: var(--slate); font-weight: 400; font-size: 0.9rem; margin-left: 8px; }
+  .accordion-body ul { margin-bottom: 0; padding-left: 20px; }
+  .accordion-body li { margin-bottom: 6px; color: var(--slate); }
+
+  .timeline-item {
+    border-left: 2px solid #e7eaf0;
+    padding-left: 20px;
+    padding-bottom: 18px;
+    position: relative;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -7px; top: 4px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent-warm);
+  }
+  .timeline-item .role { font-weight: 600; }
+  .timeline-item .org { color: var(--slate); }
+  .timeline-item .dates { color: var(--slate); font-size: 0.85rem; }
+
+  footer {
+    background: var(--ink);
+    color: #a9b4c9;
+    padding: 30px 0;
+    font-size: 0.9rem;
+    margin-top: 60px;
+  }
+  footer a { color: #cbd6e6; }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Jonathan Rojas</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navMain">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="resume.html">Résumé</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://www.linkedin.com/in/jonathan-rojas-b498833aa/" target="_blank">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="resume-header">
+  <div class="container d-flex flex-column flex-md-row align-items-center gap-4">
+    <img src="images/Faceshot.jpg" alt="Jonathan Rojas headshot" class="headshot-frame">
+    <div>
+      <h1 class="fw-bold mb-1">Jonathan Rojas</h1>
+      <p class="mb-3" style="color:#cbd6e6;">Sales and Marketing Professional</p>
+      <div class="d-flex flex-wrap gap-2">
+        <span class="contact-pill"><i class="bi bi-telephone"></i> 801-687-0830</span>
+        <span class="contact-pill"><i class="bi bi-envelope"></i> jonathandrojas@hotmail.com</span>
+        <a href="https://www.linkedin.com/in/jonathan-rojas-b498833aa/" target="_blank" class="contact-pill text-decoration-none">
+          <i class="bi bi-linkedin"></i> LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container py-5">
+
+  <!-- Professional Summary -->
+  <div class="mission-box mb-5">
+    <strong style="color: var(--ink);">Professional Summary:</strong> Results-driven Sales and Marketing professional with experience in B2B sales, demand generation, and event marketing. Proven ability to generate qualified leads, build pipeline, and support go-to-market strategy through outbound prospecting, content marketing, and webinars. Experienced working with CRM platforms like HubSpot and Zoho, while leveraging marketing automation and AI-driven workflows to improve efficiency and personalization.
+  </div>
+
+  <div class="row g-4 mb-4">
+
+    <!-- Target Roles -->
+    <div class="col-lg-6">
+      <div class="resume-card h-100">
+        <div class="section-title"><i class="bi bi-crosshair"></i><h2 class="h5 mb-0">Target Roles</h2></div>
+        <span class="skill-badge">Sales Development Representative (SDR)</span>
+        <span class="skill-badge">Business Development Representative (BDR)</span>
+        <span class="skill-badge">Growth Marketing Associate</span>
+        <span class="skill-badge">Marketing Operations Associate</span>
+        <span class="skill-badge">Demand Generation Associate</span>
+      </div>
+    </div>
+
+    <!-- Tools -->
+    <div class="col-lg-6">
+      <div class="resume-card h-100">
+        <div class="section-title"><i class="bi bi-tools"></i><h2 class="h5 mb-0">Tools &amp; Platforms</h2></div>
+        <span class="skill-badge warm">HubSpot CRM</span>
+        <span class="skill-badge warm">Zoho CRM</span>
+        <span class="skill-badge warm">Livestorm</span>
+        <span class="skill-badge warm">WordPress</span>
+        <span class="skill-badge warm">Canva</span>
+        <span class="skill-badge warm">LinkedIn Sales Navigator</span>
+        <span class="skill-badge warm">AI-assisted dev (Lovable, Base44)</span>
+      </div>
+    </div>
+
+    <!-- Core Strengths -->
+    <div class="col-12">
+      <div class="resume-card">
+        <div class="section-title"><i class="bi bi-lightning-charge"></i><h2 class="h5 mb-0">Core Strengths</h2></div>
+        <p class="text-secondary mb-0">Strong foundation in B2B sales and lead generation, with hands-on experience in outbound prospecting, cold outreach, and pipeline development. Skilled in building and optimizing sales cadences, managing CRM systems, and supporting demand generation through webinars, events, and content marketing. Combines marketing execution with analytical thinking by tracking campaign performance and improving engagement — while regularly using AI tools to streamline workflows, personalize messaging, and scale content production.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Experience: accordion -->
+  <div class="resume-card mb-4">
+    <div class="section-title"><i class="bi bi-briefcase"></i><h2 class="h5 mb-0">Professional Experience</h2></div>
+
+    <div class="accordion" id="expAccordion">
+
+      <div class="accordion-item">
+        <h3 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#exp1">
+            Go-To-Market and Sales Representative <span class="accordion-org">— Lumencra · 2025–Present</span>
+          </button>
+        </h3>
+        <div id="exp1" class="accordion-collapse collapse show" data-bs-parent="#expAccordion">
+          <div class="accordion-body">
+            <ul>
+              <li>Supported go-to-market strategy through outbound prospecting, lead generation, and campaign execution</li>
+              <li>Supported creation and promotion of 4 webinars, contributing to demand generation and inbound lead flow</li>
+              <li>Developed 6 multi-touch sales cadences across email and LinkedIn, improving outreach consistency and response rates</li>
+              <li>Created and supported 5 blog posts to improve SEO performance and brand positioning</li>
+              <li>Managed vendor relationships and coordination for event planning, ensuring successful execution of marketing events</li>
+              <li>Leveraged HubSpot, Zoho, Livestorm, Canva, and WordPress to manage campaigns, track engagement, and analyze performance</li>
+              <li>Utilized AI tools to generate marketing content, automate workflows, and personalize outbound messaging at scale</li>
+              <li>Built websites and applications using AI-assisted development tools including Lovable and Base44</li>
+              <li>Generated and qualified leads through LinkedIn outreach, email campaigns, and CRM systems</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h3 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp2">
+            D2D Sales Representative, Fiber Internet Campaign <span class="accordion-org">— Onyx Marketing Agency · 2026</span>
+          </button>
+        </h3>
+        <div id="exp2" class="accordion-collapse collapse" data-bs-parent="#expAccordion">
+          <div class="accordion-body">
+            <ul>
+              <li>Executed high-volume outbound sales through direct prospecting and in-person outreach</li>
+              <li>Closed 22 new customer accounts within a two-week period, exceeding performance expectations</li>
+              <li>Demonstrated strong objection handling, communication, and closing skills</li>
+              <li>Maintained consistent pipeline activity and daily sales tracking</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h3 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp3">
+            Installer (Temporary Role) <span class="accordion-org">— Huisches Company · 2024</span>
+          </button>
+        </h3>
+        <div id="exp3" class="accordion-collapse collapse" data-bs-parent="#expAccordion">
+          <div class="accordion-body">
+            <ul>
+              <li>Supported installation of residential and commercial awning systems</li>
+              <li>Maintained attention to detail and efficiency in a fast-paced work environment</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h3 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp4">
+            Digital Marketing Intern <span class="accordion-org">— Marbellas Landscaping · 2022–2023</span>
+          </button>
+        </h3>
+        <div id="exp4" class="accordion-collapse collapse" data-bs-parent="#expAccordion">
+          <div class="accordion-body">
+            <ul>
+              <li>Managed social media marketing and content creation strategy</li>
+              <li>Grew brand presence, including the account's first viral content and over 1,000 followers</li>
+              <li>Improved engagement through consistent posting and audience targeting</li>
+              <li>Developed foundational skills in branding, digital marketing, and customer acquisition</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Leadership & Service -->
+    <div class="col-lg-6">
+      <div class="resume-card h-100">
+        <div class="section-title"><i class="bi bi-people"></i><h2 class="h5 mb-0">Leadership &amp; Service</h2></div>
+        <div class="timeline-item">
+          <div class="role">Volunteer Representative</div>
+          <div class="org">Full-Time Missionary Service, LDS Mission</div>
+          <div class="dates">2023 – 2025</div>
+        </div>
+        <p class="text-secondary mt-2 mb-0">Developed strong communication, discipline, and interpersonal skills. Engaged diverse audiences and built meaningful relationships. Demonstrated resilience, adaptability, and accountability in high-pressure environments.</p>
+      </div>
+    </div>
+
+    <!-- Education & Certifications -->
+    <div class="col-lg-6">
+      <div class="resume-card h-100">
+        <div class="section-title"><i class="bi bi-mortarboard"></i><h2 class="h5 mb-0">Education &amp; Certifications</h2></div>
+        <div class="timeline-item">
+          <div class="role">B.S. Information Systems</div>
+          <div class="org">Brigham Young University</div>
+          <div class="dates">Currently Attending</div>
+        </div>
+        <div class="timeline-item">
+          <div class="role">HubSpot Certified — Sales and Marketing</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Info -->
+    <div class="col-12">
+      <div class="resume-card">
+        <div class="section-title"><i class="bi bi-stars"></i><h2 class="h5 mb-0">Additional Information</h2></div>
+        <span class="skill-badge">Fluent in Spanish</span>
+        <span class="skill-badge">Photography &amp; Videography</span>
+        <span class="skill-badge">Entrepreneurial mindset — startups, SaaS &amp; business growth</span>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+    <span>&copy; 2026 Jonathan Rojas</span>
+    <span><a href="https://www.linkedin.com/in/jonathan-rojas-b498833aa/" target="_blank">LinkedIn</a></span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
