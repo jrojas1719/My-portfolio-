@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jonathan Rojas</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+  :root {
+    --ink: #17233b;
+    --slate: #4a5875;
+    --accent: #0f4c81;
+    --accent-warm: #e0793c;
+    --bg-soft: #f5f7fa;
+  }
+  body { font-family: 'Inter', sans-serif; color: var(--ink); }
+  h1, h2, h3, .navbar-brand { font-family: 'Sora', sans-serif; }
+  .navbar { background: #ffffff; border-bottom: 1px solid #e7eaf0; }
+  .nav-link { color: var(--slate) !important; font-weight: 500; }
+  .nav-link.active { color: var(--accent) !important; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--ink) 0%, var(--accent) 100%);
+    color: #fff;
+    padding: 100px 0 90px;
+  }
+  .hero .eyebrow {
+    color: var(--accent-warm);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .hero h1 { font-size: 2.8rem; }
+  .hero .lead { color: #cbd6e6; max-width: 560px; }
+
+  .headshot-frame {
+    width: 190px; height: 190px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid rgba(255,255,255,0.15);
+  }
+
+  .btn-warm {
+    background: var(--accent-warm);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+  }
+  .btn-warm:hover { background: #c86528; color: #fff; }
+  .btn-outline-light-custom {
+    border: 1px solid rgba(255,255,255,0.5);
+    color: #fff;
+    font-weight: 500;
+  }
+  .btn-outline-light-custom:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+  .section-label {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .value-card {
+    border: 1px solid #e7eaf0;
+    border-radius: 10px;
+    padding: 28px;
+    height: 100%;
+    background: #fff;
+  }
+  .value-card i { color: var(--accent); font-size: 1.6rem; }
+
+  .cta-band {
+    background: var(--bg-soft);
+    padding: 70px 0;
+  }
+
+  footer {
+    background: var(--ink);
+    color: #a9b4c9;
+    padding: 30px 0;
+    font-size: 0.9rem;
+  }
+  footer a { color: #cbd6e6; }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Jonathan Rojas</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navMain">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="resume.html">Résumé</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://www.linkedin.com/in/jonathan-rojas-b498833aa/" target="_blank">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container d-flex flex-column flex-md-row align-items-center gap-5">
+    <img src="images/Faceshot.jpg" alt="Jonathan Rojas headshot" class="headshot-frame">
+    <div>
+      <p class="eyebrow mb-2">Sales &amp; Marketing Professional</p>
+      <h1 class="fw-bold mb-3">Hi, I'm Jonathan Rojas.</h1>
+      <p class="lead">I help businesses grow through B2B sales, demand generation, and data-driven marketing strategy — currently studying Information Systems at Brigham Young University.</p>
+      <div class="d-flex gap-3 mt-4">
+        <a href="resume.html" class="btn btn-warm px-4 py-2">View my résumé</a>
+        <a href="https://www.linkedin.com/in/jonathan-rojas-b498833aa/" target="_blank" class="btn btn-outline-light-custom px-4 py-2">Connect on LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="container py-5 my-4">
+  <p class="section-label mb-2">What I bring</p>
+  <h2 class="fw-bold mb-5">Where sales meets strategy</h2>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="value-card">
+        <i class="bi bi-graph-up-arrow mb-3 d-block"></i>
+        <h3 class="h5 fw-semibold">B2B Sales</h3>
+        <p class="text-secondary mb-0">Hands-on experience generating and closing business, from door-to-door fiber campaigns to go-to-market sales.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="value-card">
+        <i class="bi bi-megaphone mb-3 d-block"></i>
+        <h3 class="h5 fw-semibold">Demand Generation</h3>
+        <p class="text-secondary mb-0">Event marketing and digital campaigns built to create pipeline, not just impressions.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="value-card">
+        <i class="bi bi-bar-chart-line mb-3 d-block"></i>
+        <h3 class="h5 fw-semibold">Data-Driven Systems</h3>
+        <p class="text-secondary mb-0">An Information Systems background means I connect the CRM, the data, and the strategy together.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-3">Want the full picture?</h2>
+    <p class="text-secondary mb-4">Education, experience, and skills — all laid out on one page.</p>
+    <a href="resume.html" class="btn btn-warm px-4 py-2">See my résumé →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+    <span>&copy; 2026 Jonathan Rojas</span>
+    <span><a href="https://www.linkedin.com/in/jonathan-rojas-b498833aa/" target="_blank">LinkedIn</a></span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
