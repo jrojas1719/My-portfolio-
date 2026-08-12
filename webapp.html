@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tax Jar — 1099 Savings Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f6f3ea;
+    --paper-line: #d8d0bd;
+    --ink: #1f2e26;
+    --ink-soft: #5b6a60;
+    --green: #1b4332;
+    --green-light: #4f7a5e;
+    --rust: #b3552f;
+    --gold: #c99a3d;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #e9e4d6;
+    color: var(--ink);
+    font-family: "IBM Plex Mono", monospace;
+    padding: 40px 16px 80px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .receipt {
+    width: 100%;
+    max-width: 460px;
+    background: var(--paper);
+    box-shadow: 0 20px 40px rgba(31,46,38,0.18);
+    padding: 36px 30px 30px;
+    position: relative;
+  }
+
+  .receipt::before,
+  .receipt::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    height: 14px;
+    background:
+      linear-gradient(135deg, var(--paper) 50%, transparent 50%) 0 0/14px 14px repeat-x,
+      linear-gradient(-135deg, var(--paper) 50%, transparent 50%) 0 0/14px 14px repeat-x;
+    background-color: #e9e4d6;
+  }
+  .receipt::before { top: -13px; }
+  .receipt::after { bottom: -13px; transform: rotate(180deg); }
+
+  header.rhead {
+    text-align: center;
+    border-bottom: 1px dashed var(--paper-line);
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+  }
+
+  header.rhead .store {
+    font-family: "IBM Plex Serif", serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+    color: var(--green);
+    margin: 0;
+  }
+
+  header.rhead .tagline {
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .mode-toggle {
+    display: flex;
+    border: 1px solid var(--paper-line);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+
+  .mode-toggle button {
+    flex: 1;
+    padding: 9px 6px;
+    background: #fffdf7;
+    border: none;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+
+  .mode-toggle button + button { border-left: 1px solid var(--paper-line); }
+
+  .mode-toggle button.active {
+    background: var(--green);
+    color: var(--paper);
+  }
+
+  .hint {
+    font-size: 0.68rem;
+    color: var(--ink-soft);
+    margin: -8px 0 16px 0;
+    line-height: 1.5;
+  }
+
+  .field { margin-bottom: 16px; }
+
+  .field label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+
+  .field input,
+  .field select {
+    width: 100%;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 1rem;
+    padding: 10px 10px;
+    border: 1px solid var(--paper-line);
+    background: #fffdf7;
+    color: var(--ink);
+    border-radius: 2px;
+  }
+
+  .field-row { display: flex; gap: 12px; }
+  .field-row .field { flex: 1; }
+
+  button.calc-btn {
+    width: 100%;
+    margin-top: 6px;
+    padding: 13px;
+    background: var(--green);
+    color: #f6f3ea;
+    border: none;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  button.calc-btn:hover { background: var(--green-light); }
+
+  .results { margin-top: 26px; display: none; }
+  .results.show { display: block; }
+
+  .line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    padding: 6px 0;
+    border-bottom: 1px dotted var(--paper-line);
+  }
+
+  .line.total {
+    border-bottom: none;
+    border-top: 1px dashed var(--ink);
+    margin-top: 8px;
+    padding-top: 12px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--rust);
+  }
+
+  .line .lbl { color: var(--ink-soft); }
+  .line.total .lbl { color: var(--ink); }
+
+  /* Visual breakdown bar */
+  .breakdown {
+    margin-top: 20px;
+  }
+
+  .bar {
+    display: flex;
+    height: 20px;
+    width: 100%;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--paper-line);
+  }
+
+  .bar .seg-se { background: var(--rust); }
+  .bar .seg-income { background: var(--gold); }
+  .bar .seg-keep { background: var(--green-light); }
+
+  .legend {
+    display: flex;
+    gap: 14px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+  }
+
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .swatch { width: 9px; height: 9px; display: inline-block; border-radius: 1px; }
+  .swatch.se { background: var(--rust); }
+  .swatch.income { background: var(--gold); }
+  .swatch.keep { background: var(--green-light); }
+
+  /* Tax Jar savings tracker */
+  .jar-section {
+    margin-top: 26px;
+    border-top: 1px dashed var(--paper-line);
+    padding-top: 20px;
+  }
+
+  .jar-section h2 {
+    font-family: "IBM Plex Serif", serif;
+    font-size: 1rem;
+    color: var(--green);
+    margin: 0 0 4px 0;
+  }
+
+  .jar-sub { font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 14px; }
+
+  .jar-visual {
+    height: 26px;
+    background: #fffdf7;
+    border: 1px solid var(--paper-line);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 10px;
+  }
+
+  .jar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--green-light), var(--green));
+    transition: width 0.4s ease;
+  }
+
+  .jar-pct {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    color: var(--ink);
+    mix-blend-mode: difference;
+    filter: invert(1);
+  }
+
+  .jar-row { display: flex; gap: 10px; margin-top: 12px; }
+  .jar-row input { flex: 1; }
+  .jar-row button {
+    padding: 0 16px;
+    background: var(--gold);
+    border: none;
+    color: #2b2109;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .jar-log {
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    max-height: 90px;
+    overflow-y: auto;
+  }
+
+  .jar-log div { display: flex; justify-content: space-between; padding: 3px 0; }
+
+  .disclaimer {
+    margin-top: 24px;
+    font-size: 0.66rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    border-top: 1px dashed var(--paper-line);
+    padding-top: 14px;
+  }
+
+  .barcode {
+    margin-top: 18px;
+    text-align: center;
+    letter-spacing: 2px;
+    font-size: 1.4rem;
+    color: var(--ink);
+    opacity: 0.75;
+  }
+</style>
+</head>
+<body>
+
+<div class="receipt">
+  <header class="rhead">
+    <p class="store">THE TAX JAR</p>
+    <p class="tagline">1099 · Savings Estimator</p>
+  </header>
+
+  <div class="mode-toggle">
+    <button type="button" id="modeAnnualBtn" class="active" onclick="setMode('annual')">Full Year</button>
+    <button type="button" id="modeMonthBtn" onclick="setMode('month')">By Month</button>
+  </div>
+
+  <div class="field" id="monthField" style="display:none;">
+    <label for="month">Which month?</label>
+    <select id="month">
+      <option>January</option><option>February</option><option>March</option>
+      <option>April</option><option>May</option><option>June</option>
+      <option>July</option><option>August</option><option>September</option>
+      <option>October</option><option>November</option><option>December</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="income" id="incomeLabel">Net 1099 income this year ($)</label>
+    <input type="number" id="income" placeholder="e.g. 45000" min="0">
+  </div>
+
+  <div class="field" id="annualEstField" style="display:none;">
+    <label for="annualEst">Estimated net income for the full year ($)</label>
+    <input type="number" id="annualEst" placeholder="auto-fills from month \u00d7 12" min="0">
+    <p class="hint">Used only to figure out which tax bracket you're in. Auto-fills as this month \u00d7 12 &mdash; edit it if you expect a different total for the year.</p>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="filing">Filing status</label>
+      <select id="filing">
+        <option value="single">Single</option>
+        <option value="married">Married filing jointly</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="expenses" id="expensesLabel">Business expenses ($)</label>
+      <input type="number" id="expenses" placeholder="0" min="0" value="0">
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calculate()">Ring It Up</button>
+
+  <div class="results" id="results">
+    <div class="line"><span class="lbl" id="rNetLbl">Net taxable income</span><span id="rNet">$0</span></div>
+    <div class="line"><span class="lbl" id="rSELbl">Self-employment tax (15.3%)</span><span id="rSE">$0</span></div>
+    <div class="line"><span class="lbl" id="rIncomeLbl">Est. federal income tax</span><span id="rIncome">$0</span></div>
+    <div class="line total"><span class="lbl" id="rTotalLbl">Set aside for taxes</span><span id="rTotal">$0</span></div>
+    <div class="line"><span class="lbl" id="rKeepLbl">Estimated take-home</span><span id="rKeep">$0</span></div>
+
+    <div class="breakdown">
+      <div class="bar">
+        <div class="seg-se" id="barSE"></div>
+        <div class="seg-income" id="barIncome"></div>
+        <div class="seg-keep" id="barKeep"></div>
+      </div>
+      <div class="legend">
+        <span><span class="swatch se"></span> SE tax</span>
+        <span><span class="swatch income"></span> Income tax</span>
+        <span><span class="swatch keep"></span> Take-home</span>
+      </div>
+    </div>
+
+    <div class="jar-section">
+      <h2>Fill your jar</h2>
+      <p class="jar-sub">Log what you've actually set aside so far and watch it climb toward your goal.</p>
+      <div class="jar-visual">
+        <div class="jar-fill" id="jarFill"></div>
+        <div class="jar-pct" id="jarPct">0% saved</div>
+      </div>
+      <div class="jar-row">
+        <input type="number" id="jarAdd" placeholder="Add amount saved ($)" min="0">
+        <button onclick="addToJar()">Add</button>
+      </div>
+      <div class="jar-log" id="jarLog"></div>
+    </div>
+  </div>
+
+  <p class="disclaimer">Estimate only — uses 2024 standard deduction &amp; simplified federal brackets, ignores state tax, credits, and quarterly payment penalties. Not a substitute for a tax professional or the IRS's own worksheets.</p>
+  <div class="barcode">‖ ‖‖ | ‖ ||| ‖ | ‖‖ ‖ |||</div>
+</div>
+
+<script>
+  let jarGoal = 0;
+  let jarSaved = 0;
+  let mode = 'annual';
+
+  function fmt(n) {
+    return "$" + n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  function setMode(newMode) {
+    mode = newMode;
+    document.getElementById('modeAnnualBtn').classList.toggle('active', mode === 'annual');
+    document.getElementById('modeMonthBtn').classList.toggle('active', mode === 'month');
+    document.getElementById('monthField').style.display = mode === 'month' ? 'block' : 'none';
+    document.getElementById('annualEstField').style.display = mode === 'month' ? 'block' : 'none';
+
+    const monthName = document.getElementById('month').value;
+    if (mode === 'month') {
+      document.getElementById('incomeLabel').textContent = `Net 1099 income for ${monthName} ($)`;
+      document.getElementById('expensesLabel').textContent = `Business expenses for ${monthName} ($)`;
+      document.getElementById('rNetLbl').textContent = 'Net taxable income this month';
+      document.getElementById('rSELbl').textContent = 'Self-employment tax this month';
+      document.getElementById('rIncomeLbl').textContent = 'Est. federal income tax this month';
+      document.getElementById('rTotalLbl').textContent = `Set aside from ${monthName}`;
+      document.getElementById('rKeepLbl').textContent = 'Estimated take-home this month';
+    } else {
+      document.getElementById('incomeLabel').textContent = 'Net 1099 income this year ($)';
+      document.getElementById('expensesLabel').textContent = 'Business expenses ($)';
+      document.getElementById('rNetLbl').textContent = 'Net taxable income';
+      document.getElementById('rSELbl').textContent = 'Self-employment tax (15.3%)';
+      document.getElementById('rIncomeLbl').textContent = 'Est. federal income tax';
+      document.getElementById('rTotalLbl').textContent = 'Set aside for taxes';
+      document.getElementById('rKeepLbl').textContent = 'Estimated take-home';
+    }
+  }
+
+  document.getElementById('month').addEventListener('change', () => {
+    if (mode === 'month') setMode('month');
+  });
+
+  document.getElementById('income').addEventListener('input', () => {
+    if (mode === 'month') {
+      const monthIncome = parseFloat(document.getElementById('income').value) || 0;
+      const annualEstField = document.getElementById('annualEst');
+      if (!annualEstField.dataset.userEdited) {
+        annualEstField.value = monthIncome > 0 ? Math.round(monthIncome * 12) : '';
+      }
+    }
+  });
+
+  document.getElementById('annualEst').addEventListener('input', function () {
+    this.dataset.userEdited = 'true';
+  });
+
+  function federalTax(taxable, filing) {
+    // Simplified 2024 brackets (rounded), post-standard-deduction income
+    const single = [
+      [0, 0.10], [11600, 0.12], [47150, 0.22], [100525, 0.24],
+      [191950, 0.32], [243725, 0.35], [609350, 0.37]
+    ];
+    const married = [
+      [0, 0.10], [23200, 0.12], [94300, 0.22], [201050, 0.24],
+      [383900, 0.32], [487450, 0.35], [731200, 0.37]
+    ];
+    const brackets = filing === "married" ? married : single;
+    let tax = 0;
+    for (let i = 0; i < brackets.length; i++) {
+      const [floor, rate] = brackets[i];
+      const nextFloor = i + 1 < brackets.length ? brackets[i + 1][0] : Infinity;
+      if (taxable > floor) {
+        const amountInBracket = Math.min(taxable, nextFloor) - floor;
+        tax += amountInBracket * rate;
+      } else {
+        break;
+      }
+    }
+    return Math.max(0, tax);
+  }
+
+  // Core tax math for a given full-year net income. Returns {seTax, incomeTax}
+  function taxForAnnualNet(annualNet, filing) {
+    const seBase = annualNet * 0.9235;
+    const seTax = seBase * 0.153;
+    const seDeduction = seTax / 2; // above-the-line deduction
+
+    const standardDeduction = filing === "married" ? 29200 : 14600;
+    const taxableForIncome = Math.max(0, annualNet - seDeduction - standardDeduction);
+    const incomeTax = federalTax(taxableForIncome, filing);
+
+    return { seTax, incomeTax };
+  }
+
+  function calculate() {
+    const income = parseFloat(document.getElementById('income').value) || 0;
+    const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+    const filing = document.getElementById('filing').value;
+    const net = Math.max(0, income - expenses);
+
+    let seTax, incomeTax, net_display;
+
+    if (mode === 'annual') {
+      const t = taxForAnnualNet(net, filing);
+      seTax = t.seTax;
+      incomeTax = t.incomeTax;
+      net_display = net;
+    } else {
+      // Monthly mode: figure the effective rate from an annualized estimate,
+      // then apply that rate to this month's actual net income.
+      const annualEstInput = parseFloat(document.getElementById('annualEst').value);
+      const annualEst = annualEstInput > 0 ? annualEstInput : net * 12;
+
+      const t = taxForAnnualNet(annualEst, filing);
+      const effectiveRate = annualEst > 0 ? (t.seTax + t.incomeTax) / annualEst : 0;
+
+      // Split proportionally between SE tax and income tax using the annual ratio
+      const annualTotal = t.seTax + t.incomeTax;
+      const seShare = annualTotal > 0 ? t.seTax / annualTotal : 0;
+      const incomeShare = annualTotal > 0 ? t.incomeTax / annualTotal : 0;
+
+      const monthTotalTax = net * effectiveRate;
+      seTax = monthTotalTax * seShare;
+      incomeTax = monthTotalTax * incomeShare;
+      net_display = net;
+    }
+
+    const totalSetAside = seTax + incomeTax;
+    const keep = Math.max(0, net_display - totalSetAside);
+
+    document.getElementById('rNet').textContent = fmt(net_display);
+    document.getElementById('rSE').textContent = fmt(seTax);
+    document.getElementById('rIncome').textContent = fmt(incomeTax);
+    document.getElementById('rTotal').textContent = fmt(totalSetAside);
+    document.getElementById('rKeep').textContent = fmt(keep);
+
+    const total = seTax + incomeTax + keep;
+    if (total > 0) {
+      document.getElementById('barSE').style.width = (seTax / total * 100) + "%";
+      document.getElementById('barIncome').style.width = (incomeTax / total * 100) + "%";
+      document.getElementById('barKeep').style.width = (keep / total * 100) + "%";
+    }
+
+    jarGoal = totalSetAside;
+    updateJar();
+
+    document.getElementById('results').classList.add('show');
+  }
+
+  function addToJar() {
+    const addAmt = parseFloat(document.getElementById('jarAdd').value) || 0;
+    if (addAmt <= 0) return;
+    jarSaved += addAmt;
+    const log = document.getElementById('jarLog');
+    const entry = document.createElement('div');
+    const now = new Date();
+    entry.innerHTML = `<span>${now.toLocaleDateString()}</span><span>+${fmt(addAmt)}</span>`;
+    log.prepend(entry);
+    document.getElementById('jarAdd').value = '';
+    updateJar();
+  }
+
+  function updateJar() {
+    const pct = jarGoal > 0 ? Math.min(100, (jarSaved / jarGoal) * 100) : 0;
+    document.getElementById('jarFill').style.width = pct + "%";
+    document.getElementById('jarPct').textContent =
+      jarGoal > 0 ? Math.round(pct) + "% saved (" + fmt(jarSaved) + " of " + fmt(jarGoal) + ")" : "0% saved";
+  }
+</script>
+
+</body>
+</html>
